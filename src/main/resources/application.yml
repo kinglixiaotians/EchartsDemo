@@ -1,0 +1,16 @@
+server:
+  port: 8012
+
+
+spring:
+  datasource:
+    url: jdbc:sqlserver://127.0.0.1:1433;DatabaseName=echarts_test1
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    username: sa
+    password: 123456
+
+mybatis:
+  type-aliases-package: com.lxt.model
+  mapper-locations: classpath:/mybatis-mappers/*
+  configuration:
+    mapUnderscoreToCamelCase: true

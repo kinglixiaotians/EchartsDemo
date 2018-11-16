@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="width: 800px;height:400px;"></div>
+<div id="piemain" style="width: 700px;height:400px;"></div>
+<script type="text/javascript" src="../lib/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../lib/echarts.min.js"></script>
+<script type="text/javascript">
+
+    // 基于准备好的dom，初始化echartjquery-2.1.1.min.jss实例
+    var myChart=echarts.init(document.getElementById("main"));
+    var myChart2=echarts.init(document.getElementById("piemain"));
+
+    // 指定图表的配置项和数据
+
+    myChart.setOption({
+        title:{
+            text:'echarts入门示例'
+        },
+        tooltip:{
+
+        },
+        legend:{
+            data:['销量']
+        },
+        xAxis:{
+            data:[]
+        },
+        yAxis:{
+
+        },
+        series:[
+            {
+                name:'销量',
+                type:'bar',
+                data:[]
+            },
+        ]
+    });
+
+
+    $.ajax({
+        type : 'get',
+        url :'/echarts/queryBarGraphList',
+        async: false,
+        success : function(data){
+            myChart.setOption({
+                xAxis:{
+                    data:data.names
+                },
+                series:[
+                    {
+                        name:'销量',
+                        data:data.counts
+                    },
+                ]
+            });
+        }
+    });
+
+    myChart2.setOption({
+        title : {
+            text: '女汉子年龄分布',
+            subtext: '独家报道',
+            x:'center'
+        },
+        tooltip : {
+            trigger: 'item',
+            formatter: "{a} <br/>{b} : {c} 岁"
+        },
+        legend: {
+            orient : 'vertical',
+            x : 'left',
+            data:[]
+        },
+        toolbox: {
+            show : true,
+            feature : {
+                mark : {show: true},
+                dataView : {show: true, readOnly: false},
+                magicType : {
+                    show: true,
+                    type: ['pie', 'funnel'],
+                    option: {
+                        funnel: {
+                            x: '25%',
+                            width: '50%',
+                            funnelAlign: 'left',
+                            max: 1548
+                        }
+                    }
+                },
+                restore : {show: true},
+                saveAsImage : {show: true}
+            }
+        },
+        calculable : true,
+        series : [
+            {
+                name:'女汉子',
+                type:'pie',
+                radius : '55%',//饼图的半径大小
+                center: ['50%', '60%'],//饼图的位置
+                data:[]
+            }
+        ]
+    });
+
+    $.ajax({
+        type : 'get',
+        url :'/echarts/queryPieImageList',
+        async: false,
+        success : function(data){
+            myChart2.setOption({
+                legend: {
+                    data: data.valuess
+                },
+                series:[
+                    {
+                        data:data.names
+                    },
+                ]
+            });
+        }
+    });
+</script>
+</body>
+</html>
